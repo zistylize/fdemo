@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>和包跳板</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		  
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css"/>
+		<script type="text/javascript" src="../hbjs/hbts.js"></script> 
+		<style>
+			.title{
+				margin: 20px 15px 7px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+		</style>
+	</head>
+	<body>
+	<!-- aifIpzfEzNLYyqkGi4p5VlkqutdSPugT -->
+	<!-- okB54CEbp0DT6C4MEGxBrsrDERjOMTrf  -->
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">和包跳板</h1>
+		</header>
+		<div class="mui-content">
+			<div class="title">
+			</div>
+			<ul class="mui-table-view">
+				<!-- {name: "支付能力外放--和包外使用", link: "subs/moreDetails.html?fid=cmpOutPay", action: null, desc : "PaymentMethod/fetchMethodiPosVC"}, -->				 
+				 <li class="mui-table-view-cell"><a href="subs/moreDetails.html?fid=cmpOutPay">支付能力外放</a></li>
+				 <li class="mui-table-view-cell"><a href="subs/hjq.html">和家亲跳板</a></li>
+				 <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','chongliuliang');">充流量</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','chonghuafei');">充话费</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','bangka');">绑卡</a></li>
+		          <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','haomafu');">号码付</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','shenghuojiaofei');">生活缴费</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','xinyongka');">信用卡</a></li>
+		          <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','zhuanzhang');">转账</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','fukuanma');">付款码</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','chongzhi');">充值</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','fahongbao');">发红包</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','dangfeizheng');">党费证</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','zhangdan');">账单列表页</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','shezhi');">设置页</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','chongzhidenglu');">重置登录密码</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','chognzhizhifu');">重置支付密码</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','dianzizhengjian');">电子证件</a></li>
+		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('SC','yinhangkaguanli');">银行卡管理</a></li>
+				 <li class="mui-table-view-cell"><a href="cmpay://AccountInfo/fetchDFZVC">党费证(裸链接)</a></li>
+			</ul>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script>
+		
+		var type = localStorage.getItem("ios-request-envir");
+		var title = type === '2' ? '生产环境' : 'UAT环境';
+		document.getElementsByClassName('title')[0].innerText = title;
+
+		function startClick(envir,content){
+
+			envir = type === '2' ? 'SC' : 'UAT';
+
+				var uatUrl;
+				if(envir == 'UAT'){
+					switch (content) {
+						case 'chongliuliang':
+							uatUrl = 'cmpay://ChongLiuLiang/fetchCLLMainVC?SORCNL=6&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'chonghuafei':
+							uatUrl = 'cmpay://ChongHuaFei/fetchCHFMainVC?SORCNL=5&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'bangka':
+							uatUrl = 'cmpay://BangKa/fetchBKMainVC?SORCNL=1&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'haomafu':
+							uatUrl = 'cmpay://HaoMaFu/fetchHMFMainVC?SORCNL=3&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'shenghuojiaofei':
+							uatUrl = 'cmpay://ShengHuoJiaoFei/fetchSHJFMainVC?SORCNL=7&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'xinyongka':
+							uatUrl = 'cmpay://XinYongKa/fetchXYKMainVC?SORCNL=2&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'zhuanzhang':
+							uatUrl = 'cmpay://ZhuanZhang/fetchZZMainVC?SORCNL=4&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'fukuanma':
+							uatUrl = 'cmpay://FuKuanMa/fetchFKMMainVC?SORCNL=8&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'chongzhi':
+							uatUrl = 'cmpay://ChongZhi/fetchCZMainVC?SORCNL=10&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'fahongbao':
+							uatUrl = 'cmpay://CommonWebView/fetchWebViewMainVC?SORCNL=51&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'dangfeizheng':
+							uatUrl = 'cmpay://AccountInfo/fetchDFZVC?SORCNL=58&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'yinhangkaguanli':
+							uatUrl = 'cmpay://YinHangKaGuanLi/fetchYHKGLMainVC?SORCNL=11&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'zhangdan':
+							uatUrl = 'cmpay://ZhangDan/fetchZDMainVC?SORCNL=11&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'shezhi':
+							uatUrl = 'cmpay://SheZhi/fetchSZMainVC?SORCNL=13&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'chongzhidenglu':
+							uatUrl = 'cmpay://ChongZhiDengLuMiMa/fetchCZDLMMMainVC?SORCNL=14&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'chognzhizhifu':
+							uatUrl = 'cmpay://ChongZhiZhiFuMiMa/fetchCZZFMMMainVC?SORCNL=15&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						case 'dianzizhengjian':
+							uatUrl = 'cmpay://DianZiZhengJian/fetchDZZJMainVC?SORCNL=16&MERCSIGN=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT';
+							break;
+						default:
+							break;
+					}
+				}else if (envir = 'SC') {
+					switch (content) {
+						case 'chongliuliang':
+							uatUrl = 'cmpay://ChongLiuLiang/fetchCLLMainVC?SORCNL=6&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'chonghuafei':
+							uatUrl = 'cmpay://ChongHuaFei/fetchCHFMainVC?SORCNL=5&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'bangka':
+							uatUrl = 'cmpay://BangKa/fetchBKMainVC?SORCNL=1&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'haomafu':
+							uatUrl = 'cmpay://HaoMaFu/fetchHMFMainVC?SORCNL=3&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'shenghuojiaofei':
+							uatUrl = 'cmpay://ShengHuoJiaoFei/fetchSHJFMainVC?SORCNL=7&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'xinyongka':
+							uatUrl = 'cmpay://XinYongKa/fetchXYKMainVC?SORCNL=2&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'zhuanzhang':
+							uatUrl = 'cmpay://ZhuanZhang/fetchZZMainVC?SORCNL=4&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'fukuanma':
+							uatUrl = 'cmpay://FuKuanMa/fetchFKMMainVC?SORCNL=8&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'chongzhi':
+							uatUrl = 'cmpay://ChongZhi/fetchCZMainVC?SORCNL=4&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'fahongbao':
+							uatUrl = 'cmpay://CommonWebView/fetchWebViewMainVC?SORCNL=51&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'dangfeizheng':
+							uatUrl = 'cmpay://AccountInfo/fetchDFZVC?SORCNL=122&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'yinhangkaguanli':
+							uatUrl = 'cmpay://YinHangKaGuanLi/fetchYHKGLMainVC?SORCNL=11&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'zhangdan':
+							uatUrl = 'cmpay://ZhangDan/fetchZDMainVC?SORCNL=11&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'shezhi':
+							uatUrl = 'cmpay://SheZhi/fetchSZMainVC?SORCNL=13&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'chongzhidenglu':
+							uatUrl = 'cmpay://ChongZhiDengLuMiMa/fetchCZDLMMMainVC?SORCNL=14&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'chognzhizhifu':
+							uatUrl = 'cmpay://ChongZhiZhiFuMiMa/fetchCZZFMMMainVC?SORCNL=15&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+							break;
+						case 'dianzizhengjian':
+							uatUrl = 'cmpay://DianZiZhengJian/fetchDZZJMainVC?SORCNL=16&MERCSIGN=okB54CEbp0DT6C4MEGxBrsrDERjOMTrf';
+						default:
+							break;
+					}
+				}
+
+
+				var ua = navigator.userAgent.toLowerCase();
+    		    var isHebao =  ua.match(/(hebao)/);
+				var safari =  ua.match(/(safari)/);
+
+				if (isHebao != null) {
+					//hebaoWkjs.doCall("innerTiaoban",{
+						//url : uatUrl
+					//});
+					ShowAlert('请在Safari中测试');
+				}else{
+					window.location.href = uatUrl;
+				}
+		}
+
+	mui.init({
+    	swipeBack: true //启用右滑关闭功能
+	});	
+	</script>
+</html>

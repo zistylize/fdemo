@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>内部协议拦截</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+
+		<script src="../libs/vconsole.min.js"></script>
+  		<script>
+    		var vConsole = new VConsole();
+  		</script>
+
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css"/>
+		<script type="text/javascript" src="../hbjs/hbts.js"></script> 
+		<style>
+			.title{
+				margin: 20px 15px 7px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+		</style>
+	</head>
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">Html标签能力</h1>
+		</header>
+
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<span>拍照/相册</span>
+					<input type="file" accept="image/*">
+				</li>	
+				<li class="mui-table-view-cell">
+					 <span>录像/视频</span>
+					<input type="file" accept="video/*">
+				</li>
+				<li class="mui-table-view-cell">
+					<span>拍照/相册/录像/视频</span>
+					<input type="file" accept="image/video/*">
+				</li>	
+				<li class="mui-table-view-cell">
+					<span>文档</span>
+					<input type="file" accept="audio/*">
+				</li>	
+				<li class="mui-table-view-cell">
+					<span>拍照</span>
+					<input type="file" accept="image/*" capture="camera">
+				</li>
+				<li class="mui-table-view-cell">
+					<span>录像</span>
+					<input type="file" accept="video/*" capture="camcorder">
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="tel://10086">打电话-仅safari</a> 			
+				</li>
+			    <li class="mui-table-view-cell">
+					<a href="sms://10086">发短信-仅safari</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="mailto://10086@163.com">发邮件-仅safari</a> 
+				</li>
+
+				<li class="mui-table-view-cell">
+					<a href="avascript:void(0);" onclick="callSzqb()">测试数字回调</a> 
+				</li>
+				<!-- <input type="file" accept="audio/*" capture="microphone"> -->
+
+			</ul>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+
+		function myCallback(e){
+			setTimeout(function(){
+            	alert('回调'+e);
+        	},100)  
+		}
+
+		function callSzqb(){
+ 			hasdcep('myCallback');
+		}
+
+	</script>
+</html>
+
+
+
+
+

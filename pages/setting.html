@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>和包测试页</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css"/>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">设置</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<span></span> 
+					<div class="mui-switch">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<span></span>
+					<div class="mui-switch">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack:true //启用右滑关闭功能
+			});
+
+
+			mui('.mui-content .mui-switch').each(function(index) { //循环所有toggle
+				//toggle.classList.contains('mui-active') 可识别该toggle的开关状态
+				//this.parentNode.querySelector('span').innerText = '状态：' + (this.classList.contains('mui-active') ? 'true' : 'false');
+				/**
+				 * toggle 事件监听
+				 */				
+				
+				var list = ["接口类型","请求环境"];
+				var title = list[index];
+				var desc;
+
+				if (index == 0) {
+					var type = localStorage.getItem("ios-webview-type");
+					desc = type === '2' ? '老接口(UIWebView)' : '新接口(WKWebView)';
+					if(type === '2'){
+						this.classList.add("mui-active");
+					}
+				}
+
+
+				if (index == 1) {
+					var type = localStorage.getItem("ios-request-envir");
+					desc = type === '2' ? '生产' : 'UAT';
+					if(type === '2'){
+						this.classList.add("mui-active");
+					}
+				}
+
+
+				this.parentNode.querySelector('span').innerText =  title + '：' + desc;
+
+				this.addEventListener('toggle', function(event) {
+
+					var desc;
+					if(index == 0){
+						var type = event.detail.isActive ? '2' : '1';
+						localStorage.setItem("ios-webview-type",type);
+						desc = (type === '2' ? '老接口(UIWebView)' : '新接口(WKWebView)');
+					}
+
+					if(index == 1){
+						var type = event.detail.isActive ? '2' : '1';
+						localStorage.setItem("ios-request-envir",type);
+						desc = (type === '2' ? '生产' : 'UAT');
+					}
+
+					this.parentNode.querySelector('span').innerText =  title + '：' + desc;
+
+				});
+			});
+		</script>
+	</body>
+</html>

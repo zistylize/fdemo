@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>测试参数页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="../../css/mui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/app.css" />
+    <script type="text/javascript" src="../../hbjs/hbts.js"></script>
+    <script type="text/javascript" src="../../hbjs/template.js"></script> 
+    <style>
+        .title {
+            margin: 20px 15px 7px;
+            color: #6d6d72;
+            font-size: 15px;
+        }
+        .mui-content-padded{
+            margin-top: 10px;
+        }
+        .heobao-info-panel{
+            padding: 5px;
+        }
+        .hebao-log-panel{
+            background-color: #ffffff;
+            color: red;
+            height: 200px;
+            font-size: 13px;
+        }
+
+        #hebao-js-button{
+            padding: 10px 5px 10px 5px;
+            text-align: center;
+        }
+
+        #clear-log{
+            font-size: 10px;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title"></h1>
+        <a href="../setting.html" class="mui-icon mui-icon-gear mui-pull-right"></a>
+    </header>
+    <div class="mui-content">
+        <div id="hebao-select">            
+        </div>
+        <div id="hebao-checkbox">            
+        </div>
+        <div id="hebao-input">
+            <h5 class="mui-content-padded"></h5>
+            <div class="mui-card">
+                <form class="mui-input-group">
+                </form>
+            </div>
+        </div>
+        <div id="hebao-info">
+            <h5 class="mui-content-padded"></h5>
+            <div class="mui-card">
+                <div class="heobao-info-panel">
+                <p></p>
+                </div>     
+            </div>
+        </div>
+        <h5 class="mui-content-padded">日志输出 <a id="clear-log" href="javascript:void(0);" onclick="clearlog()">清除日志</a></h5> 
+        <div class="mui-card">
+            <textarea class="hebao-log-panel" id ="log-output" disabled></textarea> 
+            <div id="show-expand"></div>  
+        </div>   
+        <div class="mui-card">
+            <div id="hebao-js-button" onclick="startWork()">
+                调用接口
+            </div>
+        </div>
+               
+    </div>
+</body>
+<script src="../../libs/mustache.min.js"></script>
+<script src="../../js/mui.min.js"></script>
+
+<script type="text/tmplate" id="tmplate1">
+    <h5 class="mui-content-padded">{{categroy}} (单选)</h5>
+    <div class="mui-card">
+        <form class="mui-input-group">
+        {{#list}}
+            <div class="mui-input-row mui-radio mui-left">
+                <label>{{name}}</label>
+                <input name="radio" key={{key}} value={{value}} type="radio" {{#checked}}checked{{/checked}}>
+            </div>
+        {{/list}}
+        </form>
+    </div>
+</script>
+<script type="text/tmplate" id="tmplate2">
+    <h5 class="mui-content-padded">{{categroy}} (多选)</h5>
+    <div class="mui-card">
+        <form class="mui-input-group">
+        {{#list}}
+            <div class="mui-input-row mui-checkbox mui-left">
+                <label>{{name}}</label>
+                <input name="checkbox" key={{key}} value={{value}} type="checkbox" {{#checked}}checked{{/checked}}>
+            </div>
+        {{/list}}
+        </form>
+    </div>
+</script>
+<script type="text/tmplate" id="tmplate3">
+    {{#list}}
+        <div class="mui-input-row">
+            <label>{{name}}</label>
+            <input type="text" key={{key}} class="mui-input-clear" {{#value}}value={{value}}{{/value}} {{#placeholder}}placeholder={{placeholder}}{{/placeholder}}>
+        </div>
+    {{/list}}
+</script>
+
+<script>
+    mui.init({
+        swipeBack: true //启用右滑关闭功能
+    });
+
+    var eSel = document.getElementById('hebao-select');
+    var eCkb = document.getElementById('hebao-checkbox');
+    var eIpt = document.getElementById('hebao-input');
+    var eInf = document.getElementById('hebao-info');
+
+    var fid = getQueryVariable('fid');
+    var entity = hbts[fid];
+    var config = entity.config;
+
+    if(config != null){
+        document.getElementsByClassName('mui-title')[0].innerHTML = config.title;
+        
+        var selects = config.selects;
+        if (selects) {
+            var h = "";
+            for(var i = 0; i<selects.length; i++){
+                var item = selects[i];
+                var template = document.getElementById("tmplate1").innerHTML;
+                var view = Mustache.render(template, item);
+                h += view;
+            }
+            eSel.innerHTML = h;
+        }else{
+            eSel.style.display = "none";
+        }
+
+
+        var checkboxs = config.checkboxs;
+        if (checkboxs) {
+
+            var h = "";
+            for(var i = 0; i<checkboxs.length; i++){
+                var item = checkboxs[i];
+                var template = document.getElementById("tmplate2").innerHTML;
+                var view = Mustache.render(template, item);
+                h += view;
+            }
+            eCkb.innerHTML = h;
+        }else{
+            eCkb.style.display = "none";
+        }
+
+
+        var input = config.input;
+        if (input) {
+            eIpt.getElementsByTagName('h5')[0].innerHTML = input.categroy;
+            var template = document.getElementById("tmplate3").innerHTML;
+            var view = Mustache.render(template, input);
+            eIpt.getElementsByTagName('form')[0].innerHTML = view;
+        }else{
+            eIpt.style.display = "none";
+        }
+
+        var info = config.info;
+        if (info) {
+            eInf.getElementsByTagName('h5')[0].innerHTML = info.categroy;
+            eInf.getElementsByTagName('p')[0].innerText = info.descText;
+            if (info.descHtml) {
+                document.getElementById('show-expand').innerHTML = info.descHtml;
+            }
+        }else{
+            eInf.style.display = "none";
+        }
+    }
+
+    function getQueryVariable(variable){
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
+    
+    function startWork(){
+
+        var result = {};
+        var eSel = document.getElementById('hebao-select');
+        if (eSel.style.display != "none") {
+            var radios = document.getElementsByName('radio');
+            for(var i=0;i<radios.length;i++){
+                var e = radios[i];
+                if(e.checked){
+                    var key = e.getAttribute("key");
+                    result[key] = e.value;
+                }
+            }
+        }
+        var eCkb = document.getElementById('hebao-checkbox');
+        if (eCkb.style.display != "none") {
+            var boxs = document.getElementsByName('checkbox');
+            var values = {}
+            for(var i=0;i< boxs.length;i++){                
+                var e = boxs[i];
+                var key = e.getAttribute("key");
+                if (values[key] == null) {
+                    values[key] = [];
+                }
+                if(e.checked){
+                    values[key].push(e.value);
+                    result[key] = values[key];
+                }
+            }
+        }
+        var eIpt = document.getElementById('hebao-input');
+        if (eIpt.style.display != "none") {
+            var inputs = eIpt.getElementsByTagName('input');
+            for(var i=0;i<inputs.length;i++){
+                var e = inputs[i];
+                var key = e.getAttribute("key");
+                result[key] = e.value;
+            }
+        }
+
+
+        var text = "页面输出参数：" + JSON.stringify(result);
+        doLog(text);
+
+
+        var fid = getQueryVariable('fid');
+        var entity = hbts[fid];
+        var handle = entity.handle;
+
+        handle(result);
+    }
+
+
+    function doLog(text){
+        var logp = document.getElementById('log-output');
+        var newt = logp.innerHTML + "\n---------------------------------------------------------------\n" + text;
+        logp.innerHTML = newt;
+        logp.scrollTop = logp.scrollHeight;
+    }
+
+    function clearlog(){
+        var logp = document.getElementById('log-output');
+        logp.innerHTML = "";
+        logp.scrollTop = logp.scrollHeight;
+        // if (info.descHtml) {
+        //     document.getElementById('show-expand').innerHTML = info.descHtml;
+        // }
+    }
+
+</script>
+</html>

@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>和包测试页</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css"/>
+		<style>
+			.interface-name{
+				color: darkgray;
+				font-size: small;
+				white-space: normal;
+			}
+		</style>
+		<script src="../libs/vconsole.min.js"></script>
+  		<script>
+    		var vConsole = new VConsole();
+  		</script>
+		<script type="text/javascript" src="../hbjs/hbts.js"></script> 
+		<style>
+			.title{
+				margin: 20px 15px 7px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			.mui-search{
+				margin-left: 10px;
+				margin-right: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">大杂烩</h1>
+			<a href="setting.html" class="mui-icon mui-icon-gear mui-pull-right"></a>
+		</header>
+		<div class="mui-content">
+			<p></p>
+			<div class="mui-input-row mui-search">
+				<input type="search" class="mui-input-clear" id="search-hb" placeholder="输入接口名或描述">
+			</div>
+			<div id="table-content">				
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../libs/mustache.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+
+		document.getElementById("search-hb").addEventListener('input',function(){
+			var ipt = this.value;
+			var list = document.getElementsByClassName('mui-table-view-cell');
+			for (var cell of list) {
+				 var t = cell.getElementsByClassName('mui-media-body')[0].textContent;
+				 var d = cell.getElementsByClassName('interface-name')[0].textContent;
+				if (t.toLowerCase().indexOf(ipt.toLowerCase()) != -1 ||
+				    d.toLowerCase().indexOf(ipt.toLowerCase()) != -1 ) { 
+					cell.style.display = 'block';
+                }else{
+					cell.style.display = 'none';
+				}
+			}
+		});
+
+	</script>
+	<script type="text/tmplate" id="tmplate">
+		<ul class="mui-table-view">
+			{{#list}}
+			<li class="mui-table-view-cell">
+				<a href= {{link}} onclick = {{action}} >  
+					<div class="mui-media-body">
+						{{index}}. {{name}}
+					</div>
+					<div class='interface-name'>  {{desc}} </div>
+				</a>
+			</li>
+			{{/list}}
+		</ul>	
+	</script>
+	<script type="application/javascript">
+		//实例参数
+		var _nolink = "javascript:void(0);";
+        var data = { 
+			list : [		
+				{name: "网页内打开页面", link: "subs/moreDetails.html?fid=goWeb", action: null,  desc: "goWeb、goWebNoLogin、ToApp"},
+				{name: "调用原生页面", link: "subs/moreDetails.html?fid=cmpNativeCall", action: null,  desc: "cmpNativeCall"},
+				{name: "退出和包", link: _nolink, action: "hbts.exitHebao();",desc : "CmpExitAction"},
+				{name: "打开safari", link: _nolink, action: "hbts.openSafari();",desc : "openSafari"},
+				{name: "我的客服", link: _nolink, action: "hbts.serviceOnline();",desc : "CmpServiceOnline"},
+				{name: "我要反馈", link: _nolink, action: "hbts.feedback();",desc : "CmpNeedFeedback"},
+				{name: "唤起小程序", link: "subs/moreDetails.html?fid=openMiniApp", action: null, desc: "openMiniApplication"},
+				{name: "深度链接调起app(咪咕)", link: _nolink, action: "hbts.openMigu()" ,desc : "cmpOpenDeepLinkApp"},
+
+				{name: "游客模式拉起登录页面 ", link: "subs/moreDetails.html?fid=touristLogin", action: null, desc: "touristLogin"},
+				{name: "单点登录", link: "subs/moreDetails.html?fid=ssoLogin", action: null ,desc : "CmpGetSsoUrl"},
+				{name: "导航栏操作", link: "subs/moreDetails.html?fid=navView", action: null ,desc : "showNavView、hideNavView、CmpChangeTitle"},
+				{name: "Toast显示", link: _nolink, action: "hbts.showToast()" ,desc : "showToast"},
+				{name: "亮度调节", link: "subs/moreDetails.html?fid=changBright", action: null, desc: "CmpSetOpenBrightnessValue、CmpSetColseBrightnessValue"},
+				{name: "动态菜单", link: "subs/moreDetails.html?fid=dynamicMenu", action: null, desc: "CmpSetTitleMenuList、H5CmpRemoveTitleMenuList"},
+
+				{name: "获取统一认证token", link: _nolink, action: "hbts.getTokenForH5();",desc : "getTokenForH5"},
+				{name: "网络状态", link: _nolink, action: "hbts.networkType();",desc : "getNetworkType"},
+				{name: "获取版本号", link: _nolink, action: "hbts.fetchVersion();",desc : "fetchVersion"},
+				{name: "是否本机 ", link: _nolink, action: "hbts.checkIsLocalNumber()",desc : "CmpCheckIsLocalNumber"},
+				{name: "检测更新", link: _nolink, action: "hbts.checkAppVersion();",desc : "downLatestApp"},
+				{name: "定位信息-实时", link: _nolink, action: "hbts.getExactLocationInfo()",desc : "getExactLocationInfo"},
+				{name: "定位信息-缓存", link: _nolink, action: "hbts.getLocationInfo()",desc : "getLocationInfo"},				
+				{name: "获取系统权限", link: "subs/moreDetails.html?fid=authorization", action: null,  desc: "checkCameraAuthorization、checkPhotoLibraryAuthorization、checkAddressBookAuthorization、whetherHasNotificationPermission、doApplyLocationPermission"},
+				{name: "消息推送弹窗", link: _nolink, action: "hbts.showNotifDialog()",  desc: "showRequestNotificationPermissionDialog"},
+
+
+				{name: "拉起短信面板 ", link: "subs/moreDetails.html?fid=evokeMsgUI", action: null, desc: "MessageUI"},
+				{name: "拨打电话", link: _nolink, action: "hbts.callPhone();",desc : "CmpCmpDailNumber"},
+				{name: "保存图片", link: _nolink, action: "hbts.savePicToAlbum();",desc : "CmpSavePicToAlbum"},
+				{name: "拉起地图", link: _nolink, action: "hbts.openMapLocation();",desc : "CmpOpenMapLocation"},
+				{name: "功能拍照(无用-无回调)", link: _nolink, action: "hbts.takePhoto();",desc : "CmpTakePhoto"},
+
+				{name: "OCR能力", link: "subs/moreDetails.html?fid=callOCR", action: null,  desc: "cmpayCallOCRFront、cmpayCallOCRBack、getBusinessInfo、getBankCardInfo"},
+
+				{name: "初始化地铁SDK", link: _nolink, action: "hbts.startHtcsCode();",desc : "startHtcsCode"},
+				{name: "发送信息地铁SDK", link: _nolink, action: "hbts.sendToHtcsCode();",desc : "sendToHtcsCode"},
+				{name: "地铁缓存操作", link: "subs/moreDetails.html?fid=metroValue", action: null,desc : "setCsMetroValue, getCsMetroValue"},
+
+
+				{name: "扫一扫", link: _nolink, action: "hbts.scanCodeByApp();",desc : "scanCodeByApp"},
+				{name: "扫一扫带参数", link: _nolink, action: "hbts.scanCodeByAppWithParam()",desc : "scanCodeByAppWithParam"},
+
+				{name: "分享功能", link: _nolink, action: "hbts.shareAction();",desc : "CMPShareAction"},
+				{name: "分享到QQ", link: _nolink, action: "hbts.shareToQQ();",desc : "shareToQQ"},
+				{name: "分享到微信", link: _nolink, action: "hbts.shareToWeChat();",desc : "shareToWeChat"},
+				{name: "分享到微博", link: _nolink, action: "hbts.shareToSinaWeibo();",desc : "shareToSinaWeibo"},
+				{name: "分享到朋友圈", link: _nolink, action: "hbts.shareToWeChatGroup();",desc : "shareToWeChatGroup"},
+				{name: "分享微信小程序", link: "subs/moreDetails.html?fid=shareToWeChatMiniApps", action: null, desc: "shareToWeChatMiniApps"},	
+				{name: "微信订阅号", link: "subs/moreDetails.html?fid=sendWXSubscribeMessage", action: null, desc: "sendWXSubscribeMessage"},	
+				{name: "打开微信APP", link: _nolink, action: "hbts.openWXApp();",desc : "openWXApp"},
+				{name: "跳转微信和包小程序", link: "subs/moreDetails.html?fid=callWXChatAppNew", action: null, desc: "callWXChatAppNew"},	
+
+				{name: "通讯录", link: "subs/moreDetails.html?fid=callContacts", action: null, desc: "goSinglePacketsContact、goSinglePacketsContactWithName、getContacts、CmpSaveToAddrList、CmpDeleFromAddrList"},	
+
+				{name: "国政通-活体检测", link: "subs/moreDetails.html?fid=vivoDetection", action: null, desc: "doVivoDetection、doVivoDetectionNew、doVivoDetectionWithPhone"},
+
+				{name: "支付（好像没用了？）", link: "subs/moreDetails.html?fid=cmpCommonPay", action: null, desc: "cmpCommonPay"},
+				{name: "充值", link: "subs/moreDetails.html?fid=recharge", action: null, desc: "callToPayRecharge"},
+				{name: "调用支付插件-旧接口", link: _nolink, action: "hbts.checkPayPassword();",desc : "CMPCheckPayPassword"},
+				{name: "调用支付插件-新接口", link: _nolink, action: "hbts.checkPayPasswordNew();",desc : "CMPCheckPayPasswordNew"},
+				{name: "重置支付密码", link: _nolink, action: "hbts.resetPayPassword();",desc : "CMPResetPayPassword"},
+				{name: "网页版银行卡银行卡信息", link: "subs/moreDetails.html?fid=bank_yhkxq", action: null, desc: "yhkxq"},
+			
+				{name: "拉起账单", link: _nolink, action: "hbts.billChecking();", desc: "billChecking"},
+				{name: "账单条件查询", link: "subs/moreDetails.html?fid=billCheckingDetails", action: null, desc : "billCheckingDetails"},
+				{name: "账单详情查询", link: "subs/moreDetails.html?fid=billDetails", action: null, desc: "billDetails"},
+				{name: "拉起转账记录", link: "subs/moreDetails.html?fid=billRecordList", action: null, desc: "gotoBillContactRecordListActivity"},
+				{name: "拉起账单区分支出和收入", link: "subs/moreDetails.html?fid=getNewBillOrder", action: null, desc: "getNewBillOrder"},
+				{name: "通知账单刷新", link: "subs/moreDetails.html?fid=notifyOperationResult", action: null, desc: "notifyOperationResult"},
+				{name: "撤销转账拉起密码验证", link: "subs/moreDetails.html?fid=doRecallTransfer", action: null, desc: "doRecallTransfer"},
+
+				{name: "调起名片SDK", link: _nolink, action: "hbts.goBusinessSDK();",desc : "goBusinessSDK"},
+				{name: "拉起原生名片", link: _nolink, action: "hbts.goCardClipIndex();",desc : "goCardClipIndex"},
+				{name: "和包果园添加好友", link: _nolink, action: "hbts.goMocamContact();",desc : "goMocamContact"},
+				{name: "读卡信息？不知道干啥用的", link: _nolink, action: "hbts.readCardInfo();",desc : "CmpReadCardInfo"},
+				{name: "和包红包专用", link: "subs/moreDetails.html?fid=goBatchPacketsContact", action: null, desc: "goBatchPacketsContact"},
+
+				{name: "刷新二维码状态-看日志", link: _nolink, action: "hbts.CmpNoticeCardChangeStatu();",desc : "CmpNoticeCardChangeStatu"},
+				{name: "设置支付密码后通知客户端-看日志", link: _nolink, action: "hbts.CmpSyncPayPwdSts();",desc : "CmpSyncPayPwdSts"},
+				{name: "刷新和聚宝资产-看日志", link: _nolink, action: "hbts.notifyHJBBalanceUpdate();",desc : "notifyHJBBalanceUpdate"},
+				{name: "和小窗删除信息调用-看日志", link: _nolink, action: "hbts.deletehxc();",desc : "deletehxc"},
+				{name: "清除游客模式 ？-看日志", link: _nolink, action: "hbts.clearTouristModel();",desc : "clearTouristModel"},
+				{name: "h5页面返回拦截-看日志", link: _nolink, action: "hbts.addInterceptPageUrl();",desc : "addInterceptPageUrl"},
+
+
+				{name: "快捷绑卡完成返回前置页面-特殊环境测试", link: _nolink, action: "hbts.finishFastBindingCard();",desc : "finishFastBindingCard"},
+
+				{name: "头像修改原生页面-wk改版接口", link: _nolink, action: "hbts.goUserHeadActivity();",desc : "goUserHeadActivity"},
+				{name: "提现去绑卡-wk改版接口", link: "subs/moreDetails.html?fid=goNewAddBankCard", action: null, desc: "goNewAddBankCard"},
+				{name: "快捷绑卡回调参数刷新支付插件-wk改版接口", link: "subs/moreDetails.html?fid=finishFastBindingCardWithArgs", action: null, desc: "finishFastBindingCardWithArgs"},
+				{name: "第三方APP绑卡-wk改版接口", link: "subs/moreDetails.html?fid=fastBindingCardJumpToThirdApp", action: null, desc: "fastBindingCardJumpToThirdApp"},
+				{name: "客户端session共享-wk改版接口", link: _nolink, action: "hbts.relogin();",desc : "relogin"},
+			]
+		};
+		//可以将索引在所要使用的json对象里
+		var list = data.list
+		for(var i=0;i<list.length;i++){
+			list[i].index = i+1;
+		}
+        var template = document.getElementById("tmplate").innerHTML;
+        var view = Mustache.render(template, data);
+		document.getElementById("table-content").innerHTML = view;
+    </script>
+</html>
